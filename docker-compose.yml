@@ -1,37 +1,16 @@
-version: '3'
+version: "3"
 
 services:
-  # userservice:
-    # build:
-      # context: ./user-service
-      # dockerfile: Dockerfile
-    # ports:
-      # - 3051:3051
-    # volumes:
-      # - .:/user-service/app
-    #networks:
-      #- mynetwork
-  # orderservice:
-    # build:
-      # context: ./order-service
-      # dockerfile: Dockerfile
-    # ports:
-      # - 3052:3052
-    # volumes:
-      # - .:/order-service/app
-    #networks:
-      #- mynetwork
-
   # krakend:
-    # image: devopsfaith/krakend:latest
-    # volumes:
-      # - ./api-gateway/krakend.json:/etc/krakend/krakend.json
-    # ports:
-      # - "8080:8080"
-    # depends_on:
-      # - userservice
-    #networks:
-      #- mynetwork
+  # image: devopsfaith/krakend:latest
+  # volumes:
+  # - ./api-gateway/krakend.json:/etc/krakend/krakend.json
+  # ports:
+  # - "8080:8080"
+  # depends_on:
+  # - userservice
+  #networks:
+  #- mynetwork
 
   postgres:
     image: postgres:latest
