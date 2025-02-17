@@ -1,0 +1,18 @@
+[
+  {
+    "subject": "product.subtract_quantity",
+    "queueGroup": "product_queue",
+    "handler":"processSubtractProductQty"
+  },
+  {
+    "subject": "product.add_quantity",
+    "queueGroup": "product_queue",
+    "handler":"processAddProductQty"
+  },
+  {
+    "subject": "updateProductsStore",
+    "queueGroup": "productServiceQueueGroup",
+    "handler":"updateProductsStore"
+  }
+]
+  

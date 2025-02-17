@@ -1,0 +1,18 @@
+[
+  {
+    "subject": "change-store-logo",
+    "queueGroup": "change-store-logo_queue",
+    "handler":"updateStoreLogo"
+  },
+  {
+    "subject": "get-store.info",
+    "queueGroup": "get-store_queue",
+    "handler":"getStoreById"
+  },
+  {
+    "subject": "change-store-cover",
+    "queueGroup": "change-store-cover_queue",
+    "handler":"changeStoreCover"
+  }
+]
+  

@@ -1,0 +1,113 @@
+version: '3'
+
+services:
+  # userservice:
+    # build:
+      # context: ./user-service
+      # dockerfile: Dockerfile
+    # ports:
+      # - 3051:3051
+    # volumes:
+      # - .:/user-service/app
+    #networks:
+      #- mynetwork
+  # orderservice:
+    # build:
+      # context: ./order-service
+      # dockerfile: Dockerfile
+    # ports:
+      # - 3052:3052
+    # volumes:
+      # - .:/order-service/app
+    #networks:
+      #- mynetwork
+
+  # krakend:
+    # image: devopsfaith/krakend:latest
+    # volumes:
+      # - ./api-gateway/krakend.json:/etc/krakend/krakend.json
+    # ports:
+      # - "8080:8080"
+    # depends_on:
+      # - userservice
+    #networks:
+      #- mynetwork
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: users
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: idrissaithadou@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 123
+    ports:
+      - "8081:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - postgres-network
+
+  mongodb:
+    image: mongo
+    container_name: order-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - data:/data
+    networks:
+      - mongo-network
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_express
+    ports:
+      - "28081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=admin
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=root
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=root
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    depends_on:
+      - mongodb
+    restart: always
+    volumes:
+      - ./data:/data/mongodb
+    networks:
+      - mongo-network
+  nats-server:
+    image: nats:latest
+    container_name: nats-container
+    ports:
+      - "4222:4222"
+    networks:
+      - nats-network
+
+volumes:
+  pgadmin_data:
+  data: {}
+
+networks:
+  mongo-network:
+    driver: bridge
+  postgres-network:
+    driver: bridge
+  nats-network:
+    driver: bridge
